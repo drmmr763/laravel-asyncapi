@@ -21,4 +21,3 @@ abstract class TestAbstractClass
 {
     abstract public function process(): void;
 }
-

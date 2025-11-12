@@ -24,4 +24,3 @@ final class TestFinalClass
         // Implementation
     }
 }
-
