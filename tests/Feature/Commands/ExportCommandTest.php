@@ -22,7 +22,7 @@ describe('ExportCommand', function () {
     });
 
     it('can run export command', function () {
-        $tempFile = sys_get_temp_dir().'/asyncapi_test_'.uniqid().'.yaml';
+        $tempFile = sys_get_temp_dir().DIRECTORY_SEPARATOR.'asyncapi_test_'.uniqid().'.yaml';
         $this->tempFiles[] = $tempFile;
 
         $this->artisan('asyncapi:export '.$tempFile)
@@ -32,7 +32,7 @@ describe('ExportCommand', function () {
     });
 
     it('exports to YAML by default', function () {
-        $tempFile = sys_get_temp_dir().'/asyncapi_test_'.uniqid().'.yaml';
+        $tempFile = sys_get_temp_dir().DIRECTORY_SEPARATOR.'asyncapi_test_'.uniqid().'.yaml';
         $this->tempFiles[] = $tempFile;
 
         $this->artisan('asyncapi:export '.$tempFile)
@@ -43,7 +43,7 @@ describe('ExportCommand', function () {
     });
 
     it('can export to JSON format', function () {
-        $tempFile = sys_get_temp_dir().'/asyncapi_test_'.uniqid().'.json';
+        $tempFile = sys_get_temp_dir().DIRECTORY_SEPARATOR.'asyncapi_test_'.uniqid().'.json';
         $this->tempFiles[] = $tempFile;
 
         $this->artisan('asyncapi:export '.$tempFile.' --format=json')
@@ -54,7 +54,7 @@ describe('ExportCommand', function () {
     });
 
     it('auto-detects format from file extension', function () {
-        $jsonFile = sys_get_temp_dir().'/asyncapi_test_'.uniqid().'.json';
+        $jsonFile = sys_get_temp_dir().DIRECTORY_SEPARATOR.'asyncapi_test_'.uniqid().'.json';
         $this->tempFiles[] = $jsonFile;
 
         $this->artisan('asyncapi:export '.$jsonFile)
@@ -65,7 +65,7 @@ describe('ExportCommand', function () {
     });
 
     it('accepts pretty option', function () {
-        $tempFile = sys_get_temp_dir().'/asyncapi_test_'.uniqid().'.json';
+        $tempFile = sys_get_temp_dir().DIRECTORY_SEPARATOR.'asyncapi_test_'.uniqid().'.json';
         $this->tempFiles[] = $tempFile;
 
         $this->artisan('asyncapi:export '.$tempFile.' --format=json --pretty')
@@ -77,8 +77,8 @@ describe('ExportCommand', function () {
     });
 
     it('creates directory if it does not exist', function () {
-        $tempDir = sys_get_temp_dir().'/asyncapi_test_'.uniqid();
-        $tempFile = $tempDir.'/spec.yaml';
+        $tempDir = sys_get_temp_dir().DIRECTORY_SEPARATOR.'asyncapi_test_'.uniqid();
+        $tempFile = $tempDir.DIRECTORY_SEPARATOR.'spec.yaml';
         $this->tempFiles[] = $tempFile;
         $this->tempDirs[] = $tempDir;
 
@@ -89,7 +89,7 @@ describe('ExportCommand', function () {
     });
 
     it('displays success message', function () {
-        $tempFile = sys_get_temp_dir().'/asyncapi_test_'.uniqid().'.yaml';
+        $tempFile = sys_get_temp_dir().DIRECTORY_SEPARATOR.'asyncapi_test_'.uniqid().'.yaml';
         $this->tempFiles[] = $tempFile;
 
         $this->artisan('asyncapi:export '.$tempFile)

@@ -23,7 +23,7 @@ describe('GenerateCommand', function () {
     });
 
     it('accepts output option', function () {
-        $tempFile = sys_get_temp_dir().'/asyncapi_test_'.uniqid().'.yaml';
+        $tempFile = sys_get_temp_dir().DIRECTORY_SEPARATOR.'asyncapi_test_'.uniqid().'.yaml';
 
         $this->artisan('asyncapi:generate --output='.$tempFile)
             ->assertSuccessful();
@@ -39,7 +39,7 @@ describe('GenerateCommand', function () {
     });
 
     it('can combine options', function () {
-        $tempFile = sys_get_temp_dir().'/asyncapi_test_'.uniqid().'.json';
+        $tempFile = sys_get_temp_dir().DIRECTORY_SEPARATOR.'asyncapi_test_'.uniqid().'.json';
 
         $this->artisan('asyncapi:generate --format=json --output='.$tempFile.' --pretty')
             ->assertSuccessful();
