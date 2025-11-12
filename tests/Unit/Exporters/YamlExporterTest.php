@@ -4,6 +4,26 @@ use Drmmr763\AsyncApi\Exporters\YamlExporter;
 use Symfony\Component\Yaml\Yaml;
 
 describe('YamlExporter', function () {
+    beforeEach(function () {
+        $this->tempFiles = [];
+        $this->tempDirs = [];
+    });
+
+    afterEach(function () {
+        // Clean up any temporary files
+        foreach ($this->tempFiles ?? [] as $file) {
+            if (file_exists($file)) {
+                @unlink($file);
+            }
+        }
+        // Clean up any temporary directories
+        foreach ($this->tempDirs ?? [] as $dir) {
+            if (is_dir($dir)) {
+                @rmdir($dir);
+            }
+        }
+    });
+
     it('can be instantiated', function () {
         $exporter = new YamlExporter;
         expect($exporter)->toBeInstanceOf(YamlExporter::class);
@@ -23,13 +43,12 @@ describe('YamlExporter', function () {
         $exporter = new YamlExporter;
         $data = ['asyncapi' => '3.0.0', 'info' => ['title' => 'Test']];
         $tempFile = sys_get_temp_dir().'/test_'.uniqid().'.yaml';
+        $this->tempFiles[] = $tempFile;
 
         $exporter->exportToFile($data, $tempFile);
 
         expect(file_exists($tempFile))->toBeTrue()
             ->and(file_get_contents($tempFile))->toContain('asyncapi:');
-
-        unlink($tempFile);
     });
 
     it('creates directory when exporting to non-existent path', function () {
@@ -37,13 +56,12 @@ describe('YamlExporter', function () {
         $data = ['asyncapi' => '3.0.0'];
         $tempDir = sys_get_temp_dir().'/asyncapi_test_'.uniqid();
         $tempFile = $tempDir.'/spec.yaml';
+        $this->tempFiles[] = $tempFile;
+        $this->tempDirs[] = $tempDir;
 
         $exporter->exportToFile($data, $tempFile);
 
         expect(file_exists($tempFile))->toBeTrue();
-
-        unlink($tempFile);
-        rmdir($tempDir);
     });
 
     it('returns correct file extension', function () {

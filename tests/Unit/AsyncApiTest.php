@@ -5,6 +5,26 @@ use Drmmr763\AsyncApi\AsyncApi;
 use Drmmr763\AsyncApi\SpecificationBuilder;
 
 describe('AsyncApi', function () {
+    beforeEach(function () {
+        $this->tempFiles = [];
+        $this->tempDirs = [];
+    });
+
+    afterEach(function () {
+        // Clean up any temporary files
+        foreach ($this->tempFiles ?? [] as $file) {
+            if (file_exists($file)) {
+                @unlink($file);
+            }
+        }
+        // Clean up any temporary directories
+        foreach ($this->tempDirs ?? [] as $dir) {
+            if (is_dir($dir)) {
+                @rmdir($dir);
+            }
+        }
+    });
+
     it('can be instantiated', function () {
         $scanner = new AnnotationScanner([__DIR__]);
         $builder = new SpecificationBuilder($scanner);
@@ -62,12 +82,11 @@ describe('AsyncApi', function () {
         $asyncApi = new AsyncApi($scanner, $builder);
 
         $tempFile = sys_get_temp_dir().'/asyncapi_test_'.uniqid().'.yaml';
+        $this->tempFiles[] = $tempFile;
         $asyncApi->exportToFile($tempFile, 'yaml');
 
         expect(file_exists($tempFile))->toBeTrue()
             ->and(file_get_contents($tempFile))->toContain('asyncapi:');
-
-        unlink($tempFile);
     });
 
     it('creates directory when exporting to non-existent path', function () {
@@ -77,12 +96,11 @@ describe('AsyncApi', function () {
 
         $tempDir = sys_get_temp_dir().'/asyncapi_test_'.uniqid();
         $tempFile = $tempDir.'/spec.yaml';
+        $this->tempFiles[] = $tempFile;
+        $this->tempDirs[] = $tempDir;
         $asyncApi->exportToFile($tempFile, 'yaml');
 
         expect(file_exists($tempFile))->toBeTrue();
-
-        unlink($tempFile);
-        rmdir($tempDir);
     });
 
     it('exports valid JSON format', function () {
