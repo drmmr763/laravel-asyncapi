@@ -69,7 +69,7 @@ class AnnotationScanner
             return;
         }
 
-        if (! preg_match('/class\s+(\w+)/', $content, $classMatch)) {
+        if (! preg_match('/^\s*(?:abstract\s+|final\s+|readonly\s+)*class\s+(\w+)/m', $content, $classMatch)) {
             return;
         }
 

@@ -1,8 +1,11 @@
 <?php
 
 use Drmmr763\AsyncApi\AnnotationScanner;
+use Drmmr763\AsyncApi\Tests\Fixtures\TestAbstractClass;
 use Drmmr763\AsyncApi\Tests\Fixtures\TestAsyncApiSpec;
 use Drmmr763\AsyncApi\Tests\Fixtures\TestBroadcastEvent;
+use Drmmr763\AsyncApi\Tests\Fixtures\TestFinalClass;
+use Drmmr763\AsyncApi\Tests\Fixtures\TestReadonlyClass;
 
 describe('AnnotationScanner', function () {
     it('can be instantiated', function () {
@@ -119,5 +122,65 @@ describe('AnnotationScanner', function () {
 
         unlink($tempDir.'/NoAttributes.php');
         rmdir($tempDir);
+    });
+
+    it('finds attributes on abstract classes', function () {
+        $scanner = new AnnotationScanner([__DIR__.'/../Fixtures']);
+        $annotations = $scanner->scan();
+
+        expect($annotations)->toHaveKey(TestAbstractClass::class);
+
+        $classAnnotations = $annotations[TestAbstractClass::class];
+        expect($classAnnotations)->toBeArray();
+
+        $hasMessage = false;
+        foreach ($classAnnotations as $annotation) {
+            if ($annotation['type'] === 'Message') {
+                $hasMessage = true;
+                break;
+            }
+        }
+
+        expect($hasMessage)->toBeTrue();
+    });
+
+    it('finds attributes on final classes', function () {
+        $scanner = new AnnotationScanner([__DIR__.'/../Fixtures']);
+        $annotations = $scanner->scan();
+
+        expect($annotations)->toHaveKey(TestFinalClass::class);
+
+        $classAnnotations = $annotations[TestFinalClass::class];
+        expect($classAnnotations)->toBeArray();
+
+        $hasMessage = false;
+        foreach ($classAnnotations as $annotation) {
+            if ($annotation['type'] === 'Message') {
+                $hasMessage = true;
+                break;
+            }
+        }
+
+        expect($hasMessage)->toBeTrue();
+    });
+
+    it('finds attributes on readonly classes', function () {
+        $scanner = new AnnotationScanner([__DIR__.'/../Fixtures']);
+        $annotations = $scanner->scan();
+
+        expect($annotations)->toHaveKey(TestReadonlyClass::class);
+
+        $classAnnotations = $annotations[TestReadonlyClass::class];
+        expect($classAnnotations)->toBeArray();
+
+        $hasMessage = false;
+        foreach ($classAnnotations as $annotation) {
+            if ($annotation['type'] === 'Message') {
+                $hasMessage = true;
+                break;
+            }
+        }
+
+        expect($hasMessage)->toBeTrue();
     });
 });
