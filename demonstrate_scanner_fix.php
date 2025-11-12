@@ -3,12 +3,11 @@
 
 /**
  * Demonstration script showing the scanner regex bug fix
- * 
+ *
  * This script demonstrates how the original regex would fail to match
  * class declarations when "class <word>" appeared in comments or strings,
  * and how the fixed regex correctly handles these cases.
  */
-
 echo "=== AsyncAPI Scanner Regex Bug Fix Demonstration ===\n\n";
 
 // Sample file content that triggers the bug
@@ -43,9 +42,9 @@ class BugReproduction
 PHP;
 
 echo "Sample PHP file content:\n";
-echo str_repeat('-', 80) . "\n";
-echo $content . "\n";
-echo str_repeat('-', 80) . "\n\n";
+echo str_repeat('-', 80)."\n";
+echo $content."\n";
+echo str_repeat('-', 80)."\n\n";
 
 // Step 1: Extract namespace
 echo "1. Extracting namespace...\n";
@@ -67,7 +66,7 @@ foreach ($allMatches[1] as $index => $match) {
 
 preg_match($buggyPattern, $content, $buggyMatch);
 $buggyClassName = $buggyMatch[1] ?? 'N/A';
-$buggyFullClassName = $namespace . '\\' . $buggyClassName;
+$buggyFullClassName = $namespace.'\\'.$buggyClassName;
 
 echo "\n   Scanner uses FIRST match: '{$buggyClassName}'\n";
 echo "   Constructed class name: {$buggyFullClassName}\n";
@@ -80,7 +79,7 @@ echo "   Pattern: {$fixedPattern}\n";
 
 preg_match($fixedPattern, $content, $fixedMatch);
 $fixedClassName = $fixedMatch[1] ?? 'N/A';
-$fixedFullClassName = $namespace . '\\' . $fixedClassName;
+$fixedFullClassName = $namespace.'\\'.$fixedClassName;
 
 echo "   ✓ Found class: {$fixedClassName}\n";
 echo "   Constructed class name: {$fixedFullClassName}\n";
@@ -104,10 +103,10 @@ $testCases = [
 
 foreach ($testCases as $label => $classDeclaration) {
     $testContent = "<?php\nnamespace Test;\n// This mentions class name\n{$classDeclaration}";
-    
+
     preg_match($fixedPattern, $testContent, $match);
     $className = $match[1] ?? 'NOT FOUND';
-    
+
     $status = $className !== 'NOT FOUND' && $className !== 'name' ? '✓' : '✗';
     echo "{$status} {$label}: {$className}\n";
 }
@@ -119,4 +118,3 @@ echo "  ✓ Ignores 'class' keyword in comments and strings\n";
 echo "  ✓ Handles abstract, final, and readonly modifiers\n";
 echo "  ✓ Allows leading whitespace\n";
 echo "  ✓ Uses multiline mode for proper line matching\n";
-

@@ -188,4 +188,3 @@ PHP;
         expect($matches[1])->toBe('IndentedClass');
     });
 });
-
