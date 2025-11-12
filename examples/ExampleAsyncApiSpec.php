@@ -3,19 +3,19 @@
 namespace App\AsyncApi;
 
 use AsyncApi\Attributes\AsyncApi;
-use AsyncApi\Attributes\Info;
-use AsyncApi\Attributes\Contact;
-use AsyncApi\Attributes\License;
-use AsyncApi\Attributes\Server;
-use AsyncApi\Attributes\Servers;
 use AsyncApi\Attributes\Channel;
 use AsyncApi\Attributes\Channels;
+use AsyncApi\Attributes\Components;
+use AsyncApi\Attributes\Contact;
+use AsyncApi\Attributes\Info;
+use AsyncApi\Attributes\License;
+use AsyncApi\Attributes\Message;
 use AsyncApi\Attributes\Operation;
 use AsyncApi\Attributes\Operations;
-use AsyncApi\Attributes\Message;
-use AsyncApi\Attributes\Components;
-use AsyncApi\Attributes\Schema;
 use AsyncApi\Attributes\Reference;
+use AsyncApi\Attributes\Schema;
+use AsyncApi\Attributes\Server;
+use AsyncApi\Attributes\Servers;
 
 /**
  * Reusable schema components that can be referenced from other classes
@@ -42,7 +42,7 @@ class UserSchemas
                 type: 'string',
                 format: 'date-time',
                 description: 'When the user was created'
-            )
+            ),
         ],
         required: ['id', 'name', 'email']
     )]
@@ -68,7 +68,7 @@ class UserSchemas
                 type: 'string',
                 format: 'date-time',
                 description: 'When the notification was created'
-            )
+            ),
         ],
         required: ['user_id', 'message', 'type', 'timestamp']
     )]
@@ -114,9 +114,9 @@ class UserSchemas
                 protocol: 'kafka',
                 description: 'Production Kafka cluster',
                 security: [
-                    ['saslScram' => []]
+                    ['saslScram' => []],
                 ]
-            )
+            ),
         ]
     ),
     channels: new Channels(
@@ -131,7 +131,7 @@ class UserSchemas
                         contentType: 'application/json',
                         // Using a reference to the schema defined in UserSchemas class
                         payload: new Reference(ref: UserSchemas::NOTIFICATION_SCHEMA)
-                    )
+                    ),
                 ],
                 description: 'Kafka channel for user notifications'
             ),
@@ -162,7 +162,7 @@ class UserSchemas
                                         'user_agent' => new Schema(
                                             type: 'string',
                                             description: 'User agent string'
-                                        )
+                                        ),
                                     ],
                                     required: ['user']
                                 ),
@@ -170,11 +170,11 @@ class UserSchemas
                                     type: 'string',
                                     description: 'Laravel broadcast socket ID',
                                     nullable: true
-                                )
+                                ),
                             ],
                             required: ['event', 'data']
                         )
-                    )
+                    ),
                 ],
                 description: 'Laravel broadcast channel for user registration events'
             ),
@@ -202,17 +202,17 @@ class UserSchemas
                                             type: 'object',
                                             description: 'Fields that were changed',
                                             additionalProperties: true
-                                        )
+                                        ),
                                     ],
                                     required: ['user', 'changes']
-                                )
+                                ),
                             ],
                             required: ['event', 'data']
                         )
-                    )
+                    ),
                 ],
                 description: 'Laravel broadcast channel for user update events (private channel)'
-            )
+            ),
         ]
     ),
     operations: new Operations(
@@ -224,7 +224,7 @@ class UserSchemas
                 summary: 'Send a notification to a user',
                 description: 'Publishes a notification message to the user notifications channel',
                 messages: [
-                    'userNotification'
+                    'userNotification',
                 ]
             ),
             'receiveNotification' => new Operation(
@@ -234,7 +234,7 @@ class UserSchemas
                 summary: 'Receive user notifications',
                 description: 'Subscribes to user notification messages',
                 messages: [
-                    'userNotification'
+                    'userNotification',
                 ]
             ),
             'broadcastUserRegistered' => new Operation(
@@ -244,7 +244,7 @@ class UserSchemas
                 summary: 'Broadcast when a new user registers',
                 description: 'Laravel broadcast event sent when a new user completes registration',
                 messages: [
-                    'userRegistered'
+                    'userRegistered',
                 ]
             ),
             'subscribeUserRegistered' => new Operation(
@@ -254,7 +254,7 @@ class UserSchemas
                 summary: 'Listen for user registration events',
                 description: 'Subscribe to receive notifications when new users register',
                 messages: [
-                    'userRegistered'
+                    'userRegistered',
                 ]
             ),
             'broadcastUserUpdated' => new Operation(
@@ -264,7 +264,7 @@ class UserSchemas
                 summary: 'Broadcast when a user profile is updated',
                 description: 'Laravel broadcast event sent when a user updates their profile (private channel)',
                 messages: [
-                    'userUpdated'
+                    'userUpdated',
                 ]
             ),
             'subscribeUserUpdated' => new Operation(
@@ -274,9 +274,9 @@ class UserSchemas
                 summary: 'Listen for user update events',
                 description: 'Subscribe to receive notifications when a specific user updates their profile',
                 messages: [
-                    'userUpdated'
+                    'userUpdated',
                 ]
-            )
+            ),
         ]
     ),
     components: new Components(
@@ -306,7 +306,7 @@ class UserSchemas
                         type: 'string',
                         format: 'date-time',
                         description: 'When the user was last updated'
-                    )
+                    ),
                 ],
                 required: ['id', 'name', 'email']
             ),
@@ -335,16 +335,16 @@ class UserSchemas
                         type: 'boolean',
                         description: 'Whether the notification has been read',
                         default: false
-                    )
+                    ),
                 ],
                 required: ['user_id', 'message', 'type', 'timestamp']
-            )
+            ),
         ],
         securitySchemes: [
             'saslScram' => [
                 'type' => 'scramSha256',
-                'description' => 'SASL/SCRAM authentication'
-            ]
+                'description' => 'SASL/SCRAM authentication',
+            ],
         ]
     )
 )]
@@ -358,4 +358,3 @@ class UserNotificationSpec
      * documentation related to your API specification.
      */
 }
-

@@ -2,19 +2,16 @@
 
 namespace Drmmr763\AsyncApi;
 
-use ReflectionClass;
+use AsyncApi\Attributes\Operation;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use ReflectionClass;
 use RegexIterator;
-use AsyncApi\Attributes\AsyncApi as AsyncApiAttribute;
-use AsyncApi\Attributes\Channel;
-use AsyncApi\Attributes\Message;
-use AsyncApi\Attributes\Server;
-use AsyncApi\Attributes\Operation;
 
 class AnnotationScanner
 {
     protected array $scanPaths;
+
     protected array $scannedClasses = [];
 
     public function __construct(array $scanPaths)
@@ -61,25 +58,25 @@ class AnnotationScanner
      */
     protected function scanFile(string $filePath): void
     {
-        if (!file_exists($filePath)) {
+        if (! file_exists($filePath)) {
             return;
         }
 
         $content = file_get_contents($filePath);
-        
+
         // Extract namespace and class name
-        if (!preg_match('/namespace\s+([^;]+);/', $content, $namespaceMatch)) {
+        if (! preg_match('/namespace\s+([^;]+);/', $content, $namespaceMatch)) {
             return;
         }
 
-        if (!preg_match('/class\s+(\w+)/', $content, $classMatch)) {
+        if (! preg_match('/class\s+(\w+)/', $content, $classMatch)) {
             return;
         }
 
-        $className = $namespaceMatch[1] . '\\' . $classMatch[1];
+        $className = $namespaceMatch[1].'\\'.$classMatch[1];
 
         // Check if class exists and can be loaded
-        if (!class_exists($className)) {
+        if (! class_exists($className)) {
             return;
         }
 
@@ -99,7 +96,7 @@ class AnnotationScanner
 
             foreach ($attributes as $attribute) {
                 $attributeName = $attribute->getName();
-                
+
                 // Check if this is an AsyncAPI attribute
                 if ($this->isAsyncApiAttribute($attributeName)) {
                     $classAnnotations[] = [
@@ -110,7 +107,7 @@ class AnnotationScanner
                 }
             }
 
-            if (!empty($classAnnotations)) {
+            if (! empty($classAnnotations)) {
                 $this->scannedClasses[$className] = $classAnnotations;
             }
 
@@ -128,12 +125,12 @@ class AnnotationScanner
     {
         foreach ($reflection->getMethods() as $method) {
             $attributes = $method->getAttributes();
-            
+
             foreach ($attributes as $attribute) {
                 $attributeName = $attribute->getName();
-                
+
                 if ($this->isAsyncApiAttribute($attributeName)) {
-                    if (!isset($this->scannedClasses[$className])) {
+                    if (! isset($this->scannedClasses[$className])) {
                         $this->scannedClasses[$className] = [];
                     }
 
@@ -162,6 +159,7 @@ class AnnotationScanner
     protected function getAttributeType(string $attributeName): string
     {
         $parts = explode('\\', $attributeName);
+
         return end($parts);
     }
 
@@ -191,4 +189,3 @@ class AnnotationScanner
         return $result;
     }
 }
-

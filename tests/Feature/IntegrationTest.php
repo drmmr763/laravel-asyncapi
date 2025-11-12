@@ -26,7 +26,7 @@ describe('Full Integration', function () {
             ->and($yaml)->toContain('asyncapi:');
 
         // Export to file
-        $tempFile = sys_get_temp_dir() . '/integration_test_' . uniqid() . '.yaml';
+        $tempFile = sys_get_temp_dir().'/integration_test_'.uniqid().'.yaml';
         AsyncApiFacade::exportToFile($tempFile, 'yaml');
         expect(file_exists($tempFile))->toBeTrue();
 
@@ -82,8 +82,8 @@ describe('Full Integration', function () {
     });
 
     it('can export to multiple formats', function () {
-        $jsonFile = sys_get_temp_dir() . '/test_' . uniqid() . '.json';
-        $yamlFile = sys_get_temp_dir() . '/test_' . uniqid() . '.yaml';
+        $jsonFile = sys_get_temp_dir().'/test_'.uniqid().'.json';
+        $yamlFile = sys_get_temp_dir().'/test_'.uniqid().'.yaml';
 
         AsyncApiFacade::exportToFile($jsonFile, 'json');
         AsyncApiFacade::exportToFile($yamlFile, 'yaml');
@@ -118,4 +118,3 @@ describe('Full Integration', function () {
             ->and(config('asyncapi.cache.enabled'))->toBe(false); // Disabled in tests
     });
 });
-

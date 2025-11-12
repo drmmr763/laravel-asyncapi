@@ -33,7 +33,7 @@ use AsyncApi\Attributes\Servers;
                 host: 'localhost:9092',
                 protocol: 'kafka',
                 description: 'Test Kafka server'
-            )
+            ),
         ]
     ),
     channels: new Channels(
@@ -61,15 +61,15 @@ use AsyncApi\Attributes\Servers;
                                         type: 'string',
                                         format: 'date-time',
                                         description: 'Event timestamp'
-                                    )
+                                    ),
                                 ],
                                 required: ['id', 'message']
                             )
-                        )
+                        ),
                     ]
                 ),
                 description: 'Test events channel'
-            )
+            ),
         ]
     ),
     operations: new Operations(
@@ -85,7 +85,7 @@ use AsyncApi\Attributes\Servers;
                 channel: new Reference(ref: '#/channels/test~1events'),
                 title: 'Receive Test Event',
                 messages: [new Reference(ref: '#/channels/test~1events/messages/testEvent')]
-            )
+            ),
         ]
     ),
     components: new Components(
@@ -94,14 +94,11 @@ use AsyncApi\Attributes\Servers;
                 type: 'object',
                 properties: [
                     'name' => new Schema(type: 'string'),
-                    'value' => new Schema(type: 'integer')
+                    'value' => new Schema(type: 'integer'),
                 ],
                 required: ['name']
-            )
+            ),
         ]
     )
 )]
-class TestAsyncApiSpec
-{
-}
-
+class TestAsyncApiSpec {}

@@ -5,12 +5,12 @@ use Symfony\Component\Yaml\Yaml;
 
 describe('YamlExporter', function () {
     it('can be instantiated', function () {
-        $exporter = new YamlExporter();
+        $exporter = new YamlExporter;
         expect($exporter)->toBeInstanceOf(YamlExporter::class);
     });
 
     it('exports array to YAML string', function () {
-        $exporter = new YamlExporter();
+        $exporter = new YamlExporter;
         $data = ['asyncapi' => '3.0.0', 'info' => ['title' => 'Test']];
         $yaml = $exporter->export($data);
 
@@ -20,9 +20,9 @@ describe('YamlExporter', function () {
     });
 
     it('can export to file', function () {
-        $exporter = new YamlExporter();
+        $exporter = new YamlExporter;
         $data = ['asyncapi' => '3.0.0', 'info' => ['title' => 'Test']];
-        $tempFile = sys_get_temp_dir() . '/test_' . uniqid() . '.yaml';
+        $tempFile = sys_get_temp_dir().'/test_'.uniqid().'.yaml';
 
         $exporter->exportToFile($data, $tempFile);
 
@@ -33,10 +33,10 @@ describe('YamlExporter', function () {
     });
 
     it('creates directory when exporting to non-existent path', function () {
-        $exporter = new YamlExporter();
+        $exporter = new YamlExporter;
         $data = ['asyncapi' => '3.0.0'];
-        $tempDir = sys_get_temp_dir() . '/asyncapi_test_' . uniqid();
-        $tempFile = $tempDir . '/spec.yaml';
+        $tempDir = sys_get_temp_dir().'/asyncapi_test_'.uniqid();
+        $tempFile = $tempDir.'/spec.yaml';
 
         $exporter->exportToFile($data, $tempFile);
 
@@ -47,19 +47,19 @@ describe('YamlExporter', function () {
     });
 
     it('returns correct file extension', function () {
-        $exporter = new YamlExporter();
+        $exporter = new YamlExporter;
         expect($exporter->getExtension())->toBe('yaml');
     });
 
     it('handles empty arrays', function () {
-        $exporter = new YamlExporter();
+        $exporter = new YamlExporter;
         $yaml = $exporter->export([]);
 
         expect($yaml)->toBeString();
     });
 
     it('handles nested arrays', function () {
-        $exporter = new YamlExporter();
+        $exporter = new YamlExporter;
         $data = [
             'level1' => [
                 'level2' => [
@@ -74,7 +74,7 @@ describe('YamlExporter', function () {
     });
 
     it('preserves data types', function () {
-        $exporter = new YamlExporter();
+        $exporter = new YamlExporter;
         $data = [
             'string' => 'text',
             'integer' => 42,
@@ -95,7 +95,7 @@ describe('YamlExporter', function () {
     });
 
     it('produces valid YAML', function () {
-        $exporter = new YamlExporter();
+        $exporter = new YamlExporter;
         $data = [
             'asyncapi' => '3.0.0',
             'info' => [
@@ -116,7 +116,7 @@ describe('YamlExporter', function () {
     });
 
     it('handles special characters in strings', function () {
-        $exporter = new YamlExporter();
+        $exporter = new YamlExporter;
         $data = [
             'description' => 'This has: colons, and "quotes"',
             'example' => "Line 1\nLine 2",
@@ -127,4 +127,3 @@ describe('YamlExporter', function () {
         expect($parsed)->toBe($data);
     });
 });
-

@@ -21,6 +21,7 @@ class ListCommand extends Command
 
             if (empty($scannedClasses)) {
                 $this->warn('No AsyncAPI annotations found in the configured scan paths.');
+
                 return self::SUCCESS;
             }
 
@@ -34,7 +35,8 @@ class ListCommand extends Command
 
             return self::SUCCESS;
         } catch (\Exception $e) {
-            $this->error('Failed to scan annotations: ' . $e->getMessage());
+            $this->error('Failed to scan annotations: '.$e->getMessage());
+
             return self::FAILURE;
         }
     }
@@ -53,7 +55,7 @@ class ListCommand extends Command
         }
 
         $this->newLine();
-        $this->line('<fg=cyan>Found ' . $totalCount . ' AsyncAPI annotation(s) in ' . count($scannedClasses) . ' class(es)</>');
+        $this->line('<fg=cyan>Found '.$totalCount.' AsyncAPI annotation(s) in '.count($scannedClasses).' class(es)</>');
         $this->newLine();
 
         // Display by type
@@ -67,15 +69,15 @@ class ListCommand extends Command
 
         foreach ($scannedClasses as $className => $annotations) {
             $this->line("<fg=green>{$className}</>");
-            
+
             foreach ($annotations as $annotation) {
-                $location = isset($annotation['method']) 
-                    ? "  └─ Method: {$annotation['method']}" 
-                    : "  └─ Class";
-                
+                $location = isset($annotation['method'])
+                    ? "  └─ Method: {$annotation['method']}"
+                    : '  └─ Class';
+
                 $this->line("  <fg=yellow>@{$annotation['type']}</> {$location}");
             }
-            
+
             $this->newLine();
         }
     }
@@ -96,6 +98,7 @@ class ListCommand extends Command
 
         if (empty($filtered)) {
             $this->warn("No annotations of type '{$type}' found.");
+
             return;
         }
 
@@ -105,17 +108,16 @@ class ListCommand extends Command
 
         foreach ($filtered as $className => $annotations) {
             $this->line("<fg=green>{$className}</>");
-            
+
             foreach ($annotations as $annotation) {
-                $location = isset($annotation['method']) 
-                    ? "  └─ Method: {$annotation['method']}" 
-                    : "  └─ Class";
-                
+                $location = isset($annotation['method'])
+                    ? "  └─ Method: {$annotation['method']}"
+                    : '  └─ Class';
+
                 $this->line("  <fg=yellow>@{$annotation['type']}</> {$location}");
             }
-            
+
             $this->newLine();
         }
     }
 }
-

@@ -3,6 +3,8 @@
 namespace App\Events;
 
 use App\Models\User;
+use AsyncApi\Attributes\Message;
+use AsyncApi\Attributes\Schema;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -10,13 +12,10 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use AsyncApi\Attributes\Message;
-use AsyncApi\Attributes\Schema;
-use AsyncApi\Attributes\Reference;
 
 /**
  * Example Laravel Broadcast Event with AsyncAPI annotations
- * 
+ *
  * This demonstrates how to annotate a Laravel broadcast event
  * with AsyncAPI attributes to document your real-time API.
  */
@@ -43,14 +42,14 @@ use AsyncApi\Attributes\Reference;
                             'id' => new Schema(type: 'integer', description: 'User ID'),
                             'name' => new Schema(type: 'string', description: 'User name'),
                             'email' => new Schema(type: 'string', format: 'email', description: 'User email'),
-                            'created_at' => new Schema(type: 'string', format: 'date-time')
+                            'created_at' => new Schema(type: 'string', format: 'date-time'),
                         ],
                         required: ['id', 'name', 'email']
                     ),
                     'ip_address' => new Schema(
                         type: 'string',
                         description: 'IP address from which the user registered'
-                    )
+                    ),
                 ],
                 required: ['user']
             ),
@@ -58,7 +57,7 @@ use AsyncApi\Attributes\Reference;
                 type: 'string',
                 description: 'Socket ID to exclude from broadcast',
                 nullable: true
-            )
+            ),
         ],
         required: ['event', 'data']
     )
@@ -70,8 +69,7 @@ class UserRegistered implements ShouldBroadcast
     public function __construct(
         public User $user,
         public string $ipAddress
-    ) {
-    }
+    ) {}
 
     /**
      * Get the channels the event should broadcast on.
@@ -110,7 +108,7 @@ class UserRegistered implements ShouldBroadcast
 
 /**
  * Example Private Channel Broadcast Event
- * 
+ *
  * This demonstrates a private channel broadcast with user-specific data
  */
 #[Message(
@@ -141,7 +139,7 @@ class UserRegistered implements ShouldBroadcast
                             type: 'object',
                             properties: [
                                 'old' => new Schema(description: 'Previous value'),
-                                'new' => new Schema(description: 'New value')
+                                'new' => new Schema(description: 'New value'),
                             ]
                         )
                     ),
@@ -149,10 +147,10 @@ class UserRegistered implements ShouldBroadcast
                         type: 'string',
                         format: 'date-time',
                         description: 'When the update occurred'
-                    )
+                    ),
                 ],
                 required: ['user_id', 'changes', 'updated_at']
-            )
+            ),
         ],
         required: ['event', 'data']
     )
@@ -164,8 +162,7 @@ class UserProfileUpdated implements ShouldBroadcast
     public function __construct(
         public User $user,
         public array $changes
-    ) {
-    }
+    ) {}
 
     /**
      * Get the channels the event should broadcast on.
@@ -173,7 +170,7 @@ class UserProfileUpdated implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('user.' . $this->user->id),
+            new PrivateChannel('user.'.$this->user->id),
         ];
     }
 
@@ -200,7 +197,7 @@ class UserProfileUpdated implements ShouldBroadcast
 
 /**
  * Example Presence Channel Broadcast Event
- * 
+ *
  * This demonstrates a presence channel for real-time collaboration
  */
 #[Message(
@@ -235,10 +232,10 @@ class UserProfileUpdated implements ShouldBroadcast
                     'is_typing' => new Schema(
                         type: 'boolean',
                         description: 'Whether the user is currently typing'
-                    )
+                    ),
                 ],
                 required: ['user_id', 'user_name', 'room_id', 'is_typing']
-            )
+            ),
         ],
         required: ['event', 'data']
     )
@@ -251,8 +248,7 @@ class UserTyping implements ShouldBroadcast
         public User $user,
         public string $roomId,
         public bool $isTyping = true
-    ) {
-    }
+    ) {}
 
     /**
      * Get the channels the event should broadcast on.
@@ -260,7 +256,7 @@ class UserTyping implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PresenceChannel('chat.' . $this->roomId),
+            new PresenceChannel('chat.'.$this->roomId),
         ];
     }
 
@@ -285,4 +281,3 @@ class UserTyping implements ShouldBroadcast
         ];
     }
 }
-

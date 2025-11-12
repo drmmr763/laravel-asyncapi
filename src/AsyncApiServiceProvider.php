@@ -4,7 +4,6 @@ namespace Drmmr763\AsyncApi;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Drmmr763\AsyncApi\Commands\AsyncApiCommand;
 
 class AsyncApiServiceProvider extends PackageServiceProvider
 {

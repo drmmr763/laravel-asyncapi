@@ -25,7 +25,7 @@ class ExportCommand extends Command
             $format = $this->option('format');
 
             // Auto-detect format from file extension if not specified
-            if (!$format) {
+            if (! $format) {
                 $extension = pathinfo($path, PATHINFO_EXTENSION);
                 $format = match ($extension) {
                     'json' => 'json',
@@ -37,8 +37,8 @@ class ExportCommand extends Command
             $exporter = $this->getExporter($format);
 
             // Add extension if not present
-            if (!str_ends_with($path, '.' . $exporter->getExtension())) {
-                $path .= '.' . $exporter->getExtension();
+            if (! str_ends_with($path, '.'.$exporter->getExtension())) {
+                $path .= '.'.$exporter->getExtension();
             }
 
             $exporter->exportToFile($specification, $path);
@@ -47,7 +47,8 @@ class ExportCommand extends Command
 
             return self::SUCCESS;
         } catch (\Exception $e) {
-            $this->error('Failed to export AsyncAPI specification: ' . $e->getMessage());
+            $this->error('Failed to export AsyncAPI specification: '.$e->getMessage());
+
             return self::FAILURE;
         }
     }
@@ -66,7 +67,6 @@ class ExportCommand extends Command
             return new $exporterClass($prettyPrint);
         }
 
-        return new $exporterClass();
+        return new $exporterClass;
     }
 }
-

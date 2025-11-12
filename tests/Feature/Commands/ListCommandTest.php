@@ -32,4 +32,3 @@ describe('ListCommand', function () {
             ->assertSuccessful();
     });
 });
-

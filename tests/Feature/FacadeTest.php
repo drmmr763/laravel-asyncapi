@@ -36,7 +36,7 @@ describe('AsyncApi Facade', function () {
     });
 
     it('can call exportToFile method through facade', function () {
-        $tempFile = sys_get_temp_dir() . '/asyncapi_facade_test_' . uniqid() . '.yaml';
+        $tempFile = sys_get_temp_dir().'/asyncapi_facade_test_'.uniqid().'.yaml';
         AsyncApiFacade::exportToFile($tempFile, 'yaml');
 
         expect(file_exists($tempFile))->toBeTrue();
@@ -51,4 +51,3 @@ describe('AsyncApi Facade', function () {
         expect($instance1)->toBe($instance2);
     });
 });
-

@@ -17,7 +17,7 @@ class JsonExporter implements ExporterInterface
     public function export(array $specification): string
     {
         $options = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
-        
+
         if ($this->prettyPrint) {
             $options |= JSON_PRETTY_PRINT;
         }
@@ -25,7 +25,7 @@ class JsonExporter implements ExporterInterface
         $json = json_encode($specification, $options);
 
         if ($json === false) {
-            throw new \RuntimeException('Failed to encode specification to JSON: ' . json_last_error_msg());
+            throw new \RuntimeException('Failed to encode specification to JSON: '.json_last_error_msg());
         }
 
         return $json;
@@ -39,7 +39,7 @@ class JsonExporter implements ExporterInterface
         $json = $this->export($specification);
 
         $directory = dirname($filePath);
-        if (!is_dir($directory)) {
+        if (! is_dir($directory)) {
             mkdir($directory, 0755, true);
         }
 
@@ -62,7 +62,7 @@ class JsonExporter implements ExporterInterface
     public function setPrettyPrint(bool $prettyPrint): self
     {
         $this->prettyPrint = $prettyPrint;
+
         return $this;
     }
 }
-

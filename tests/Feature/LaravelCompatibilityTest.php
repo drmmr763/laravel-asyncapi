@@ -44,7 +44,7 @@ describe('Laravel Compatibility', function () {
     });
 
     it('uses Laravel filesystem helpers', function () {
-        $tempFile = sys_get_temp_dir() . '/laravel_compat_test_' . uniqid() . '.yaml';
+        $tempFile = sys_get_temp_dir().'/laravel_compat_test_'.uniqid().'.yaml';
 
         try {
             \Drmmr763\AsyncApi\Facades\AsyncApi::exportToFile($tempFile, 'yaml');
@@ -100,8 +100,7 @@ describe('Laravel Compatibility', function () {
         {
             public function __construct(
                 public \Drmmr763\AsyncApi\AsyncApi $asyncApi
-            ) {
-            }
+            ) {}
         };
 
         expect($controller->asyncApi)->toBeInstanceOf(\Drmmr763\AsyncApi\AsyncApi::class);
@@ -112,4 +111,3 @@ describe('Laravel Compatibility', function () {
         expect($this)->toHaveProperty('app');
     });
 });
-

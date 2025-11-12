@@ -12,7 +12,7 @@ describe('SpecificationBuilder', function () {
     });
 
     it('builds a valid AsyncAPI specification', function () {
-        $scanner = new AnnotationScanner([__DIR__ . '/../Fixtures']);
+        $scanner = new AnnotationScanner([__DIR__.'/../Fixtures']);
         $builder = new SpecificationBuilder($scanner);
         $spec = $builder->build();
 
@@ -22,7 +22,7 @@ describe('SpecificationBuilder', function () {
     });
 
     it('includes info section in specification', function () {
-        $scanner = new AnnotationScanner([__DIR__ . '/../Fixtures']);
+        $scanner = new AnnotationScanner([__DIR__.'/../Fixtures']);
         $builder = new SpecificationBuilder($scanner);
         $spec = $builder->build();
 
@@ -32,7 +32,7 @@ describe('SpecificationBuilder', function () {
     });
 
     it('includes servers section when defined', function () {
-        $scanner = new AnnotationScanner([__DIR__ . '/../Fixtures']);
+        $scanner = new AnnotationScanner([__DIR__.'/../Fixtures']);
         $builder = new SpecificationBuilder($scanner);
         $spec = $builder->build();
 
@@ -40,7 +40,7 @@ describe('SpecificationBuilder', function () {
     });
 
     it('includes channels section when defined', function () {
-        $scanner = new AnnotationScanner([__DIR__ . '/../Fixtures']);
+        $scanner = new AnnotationScanner([__DIR__.'/../Fixtures']);
         $builder = new SpecificationBuilder($scanner);
         $spec = $builder->build();
 
@@ -48,7 +48,7 @@ describe('SpecificationBuilder', function () {
     });
 
     it('includes operations section when defined', function () {
-        $scanner = new AnnotationScanner([__DIR__ . '/../Fixtures']);
+        $scanner = new AnnotationScanner([__DIR__.'/../Fixtures']);
         $builder = new SpecificationBuilder($scanner);
         $spec = $builder->build();
 
@@ -56,7 +56,7 @@ describe('SpecificationBuilder', function () {
     });
 
     it('includes components section when defined', function () {
-        $scanner = new AnnotationScanner([__DIR__ . '/../Fixtures']);
+        $scanner = new AnnotationScanner([__DIR__.'/../Fixtures']);
         $builder = new SpecificationBuilder($scanner);
         $spec = $builder->build();
 
@@ -68,12 +68,12 @@ describe('SpecificationBuilder', function () {
         $builder = new SpecificationBuilder($scanner);
 
         // Should throw an exception when no annotations are found
-        expect(fn() => $builder->build())
+        expect(fn () => $builder->build())
             ->toThrow(\RuntimeException::class, 'No AsyncAPI annotations found in the scanned paths.');
     });
 
     it('builds specification with correct structure', function () {
-        $scanner = new AnnotationScanner([__DIR__ . '/../Fixtures']);
+        $scanner = new AnnotationScanner([__DIR__.'/../Fixtures']);
         $builder = new SpecificationBuilder($scanner);
         $spec = $builder->build();
 
@@ -81,11 +81,10 @@ describe('SpecificationBuilder', function () {
     });
 
     it('preserves AsyncAPI version', function () {
-        $scanner = new AnnotationScanner([__DIR__ . '/../Fixtures']);
+        $scanner = new AnnotationScanner([__DIR__.'/../Fixtures']);
         $builder = new SpecificationBuilder($scanner);
         $spec = $builder->build();
 
         expect($spec['asyncapi'])->toBe('3.0.0');
     });
 });
-

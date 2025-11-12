@@ -7,6 +7,7 @@ use Symfony\Component\Yaml\Yaml;
 class YamlExporter implements ExporterInterface
 {
     protected int $inline;
+
     protected int $indent;
 
     public function __construct(int $inline = 10, int $indent = 2)
@@ -36,7 +37,7 @@ class YamlExporter implements ExporterInterface
         $yaml = $this->export($specification);
 
         $directory = dirname($filePath);
-        if (!is_dir($directory)) {
+        if (! is_dir($directory)) {
             mkdir($directory, 0755, true);
         }
 
@@ -59,6 +60,7 @@ class YamlExporter implements ExporterInterface
     public function setInline(int $inline): self
     {
         $this->inline = $inline;
+
         return $this;
     }
 
@@ -68,7 +70,7 @@ class YamlExporter implements ExporterInterface
     public function setIndent(int $indent): self
     {
         $this->indent = $indent;
+
         return $this;
     }
 }
-

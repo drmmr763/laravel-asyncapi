@@ -4,12 +4,12 @@ use Drmmr763\AsyncApi\Exporters\JsonExporter;
 
 describe('JsonExporter', function () {
     it('can be instantiated', function () {
-        $exporter = new JsonExporter();
+        $exporter = new JsonExporter;
         expect($exporter)->toBeInstanceOf(JsonExporter::class);
     });
 
     it('exports array to JSON string', function () {
-        $exporter = new JsonExporter();
+        $exporter = new JsonExporter;
         $data = ['asyncapi' => '3.0.0', 'info' => ['title' => 'Test']];
         $json = $exporter->export($data);
 
@@ -18,7 +18,7 @@ describe('JsonExporter', function () {
     });
 
     it('exports pretty JSON when requested', function () {
-        $exporter = new JsonExporter();
+        $exporter = new JsonExporter;
         $data = ['asyncapi' => '3.0.0', 'info' => ['title' => 'Test']];
         $json = $exporter->export($data, true);
 
@@ -37,9 +37,9 @@ describe('JsonExporter', function () {
     });
 
     it('can export to file', function () {
-        $exporter = new JsonExporter();
+        $exporter = new JsonExporter;
         $data = ['asyncapi' => '3.0.0', 'info' => ['title' => 'Test']];
-        $tempFile = sys_get_temp_dir() . '/test_' . uniqid() . '.json';
+        $tempFile = sys_get_temp_dir().'/test_'.uniqid().'.json';
 
         $exporter->exportToFile($data, $tempFile);
 
@@ -50,10 +50,10 @@ describe('JsonExporter', function () {
     });
 
     it('creates directory when exporting to non-existent path', function () {
-        $exporter = new JsonExporter();
+        $exporter = new JsonExporter;
         $data = ['asyncapi' => '3.0.0'];
-        $tempDir = sys_get_temp_dir() . '/asyncapi_test_' . uniqid();
-        $tempFile = $tempDir . '/spec.json';
+        $tempDir = sys_get_temp_dir().'/asyncapi_test_'.uniqid();
+        $tempFile = $tempDir.'/spec.json';
 
         $exporter->exportToFile($data, $tempFile);
 
@@ -64,12 +64,12 @@ describe('JsonExporter', function () {
     });
 
     it('returns correct file extension', function () {
-        $exporter = new JsonExporter();
+        $exporter = new JsonExporter;
         expect($exporter->getExtension())->toBe('json');
     });
 
     it('handles empty arrays', function () {
-        $exporter = new JsonExporter();
+        $exporter = new JsonExporter;
         $json = $exporter->export([]);
 
         // PHP json_encode returns [] for empty arrays
@@ -77,7 +77,7 @@ describe('JsonExporter', function () {
     });
 
     it('handles nested arrays', function () {
-        $exporter = new JsonExporter();
+        $exporter = new JsonExporter;
         $data = [
             'level1' => [
                 'level2' => [
@@ -92,7 +92,7 @@ describe('JsonExporter', function () {
     });
 
     it('preserves data types', function () {
-        $exporter = new JsonExporter();
+        $exporter = new JsonExporter;
         $data = [
             'string' => 'text',
             'integer' => 42,
@@ -112,4 +112,3 @@ describe('JsonExporter', function () {
             ->and($decoded['array'])->toBe([1, 2, 3]);
     });
 });
-

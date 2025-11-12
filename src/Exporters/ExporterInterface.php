@@ -19,4 +19,3 @@ interface ExporterInterface
      */
     public function getExtension(): string;
 }
-

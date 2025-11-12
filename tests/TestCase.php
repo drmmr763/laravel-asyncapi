@@ -29,7 +29,6 @@ class TestCase extends Orchestra
      * Define environment setup.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     * @return void
      */
     protected function getEnvironmentSetUp($app): void
     {
@@ -43,7 +42,7 @@ class TestCase extends Orchestra
 
         // Configure AsyncAPI package for testing
         config()->set('asyncapi.scan_paths', [
-            __DIR__ . '/Fixtures',
+            __DIR__.'/Fixtures',
         ]);
 
         config()->set('asyncapi.cache.enabled', false);

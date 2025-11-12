@@ -3,11 +3,11 @@
 namespace Drmmr763\AsyncApi;
 
 use AsyncApi\Attributes\AsyncApi as AsyncApiAttribute;
-use AsyncApi\Attributes\Info;
-use AsyncApi\Attributes\Servers;
 use AsyncApi\Attributes\Channels;
-use AsyncApi\Attributes\Operations;
 use AsyncApi\Attributes\Components;
+use AsyncApi\Attributes\Info;
+use AsyncApi\Attributes\Operations;
+use AsyncApi\Attributes\Servers;
 
 class SpecificationBuilder
 {
@@ -32,7 +32,7 @@ class SpecificationBuilder
         // Find the main AsyncAPI attribute
         $mainSpec = $this->findMainSpecification($scannedClasses);
 
-        if (!$mainSpec) {
+        if (! $mainSpec) {
             throw new \RuntimeException('No main AsyncAPI attribute found. Please add an #[AsyncApi] attribute to a class.');
         }
 
@@ -153,7 +153,7 @@ class SpecificationBuilder
      */
     protected function buildServers(?Servers $servers): array
     {
-        if (!$servers || !$servers->servers) {
+        if (! $servers || ! $servers->servers) {
             return [];
         }
 
@@ -170,7 +170,7 @@ class SpecificationBuilder
      */
     protected function buildChannels(?Channels $channels): array
     {
-        if (!$channels || !$channels->channels) {
+        if (! $channels || ! $channels->channels) {
             return [];
         }
 
@@ -187,7 +187,7 @@ class SpecificationBuilder
      */
     protected function buildOperations(?Operations $operations): array
     {
-        if (!$operations || !$operations->operations) {
+        if (! $operations || ! $operations->operations) {
             return [];
         }
 
@@ -204,7 +204,7 @@ class SpecificationBuilder
      */
     protected function buildComponents(?Components $components): array
     {
-        if (!$components) {
+        if (! $components) {
             return [];
         }
 
@@ -311,4 +311,3 @@ class SpecificationBuilder
         return $result;
     }
 }
-

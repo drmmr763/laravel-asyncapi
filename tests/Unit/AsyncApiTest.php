@@ -14,7 +14,7 @@ describe('AsyncApi', function () {
     });
 
     it('can scan for annotations', function () {
-        $scanner = new AnnotationScanner([__DIR__ . '/../Fixtures']);
+        $scanner = new AnnotationScanner([__DIR__.'/../Fixtures']);
         $builder = new SpecificationBuilder($scanner);
         $asyncApi = new AsyncApi($scanner, $builder);
 
@@ -24,7 +24,7 @@ describe('AsyncApi', function () {
     });
 
     it('can build specification', function () {
-        $scanner = new AnnotationScanner([__DIR__ . '/../Fixtures']);
+        $scanner = new AnnotationScanner([__DIR__.'/../Fixtures']);
         $builder = new SpecificationBuilder($scanner);
         $asyncApi = new AsyncApi($scanner, $builder);
 
@@ -35,7 +35,7 @@ describe('AsyncApi', function () {
     });
 
     it('can export to JSON', function () {
-        $scanner = new AnnotationScanner([__DIR__ . '/../Fixtures']);
+        $scanner = new AnnotationScanner([__DIR__.'/../Fixtures']);
         $builder = new SpecificationBuilder($scanner);
         $asyncApi = new AsyncApi($scanner, $builder);
 
@@ -46,7 +46,7 @@ describe('AsyncApi', function () {
     });
 
     it('can export to YAML', function () {
-        $scanner = new AnnotationScanner([__DIR__ . '/../Fixtures']);
+        $scanner = new AnnotationScanner([__DIR__.'/../Fixtures']);
         $builder = new SpecificationBuilder($scanner);
         $asyncApi = new AsyncApi($scanner, $builder);
 
@@ -57,11 +57,11 @@ describe('AsyncApi', function () {
     });
 
     it('can export to file', function () {
-        $scanner = new AnnotationScanner([__DIR__ . '/../Fixtures']);
+        $scanner = new AnnotationScanner([__DIR__.'/../Fixtures']);
         $builder = new SpecificationBuilder($scanner);
         $asyncApi = new AsyncApi($scanner, $builder);
 
-        $tempFile = sys_get_temp_dir() . '/asyncapi_test_' . uniqid() . '.yaml';
+        $tempFile = sys_get_temp_dir().'/asyncapi_test_'.uniqid().'.yaml';
         $asyncApi->exportToFile($tempFile, 'yaml');
 
         expect(file_exists($tempFile))->toBeTrue()
@@ -71,12 +71,12 @@ describe('AsyncApi', function () {
     });
 
     it('creates directory when exporting to non-existent path', function () {
-        $scanner = new AnnotationScanner([__DIR__ . '/../Fixtures']);
+        $scanner = new AnnotationScanner([__DIR__.'/../Fixtures']);
         $builder = new SpecificationBuilder($scanner);
         $asyncApi = new AsyncApi($scanner, $builder);
 
-        $tempDir = sys_get_temp_dir() . '/asyncapi_test_' . uniqid();
-        $tempFile = $tempDir . '/spec.yaml';
+        $tempDir = sys_get_temp_dir().'/asyncapi_test_'.uniqid();
+        $tempFile = $tempDir.'/spec.yaml';
         $asyncApi->exportToFile($tempFile, 'yaml');
 
         expect(file_exists($tempFile))->toBeTrue();
@@ -86,7 +86,7 @@ describe('AsyncApi', function () {
     });
 
     it('exports valid JSON format', function () {
-        $scanner = new AnnotationScanner([__DIR__ . '/../Fixtures']);
+        $scanner = new AnnotationScanner([__DIR__.'/../Fixtures']);
         $builder = new SpecificationBuilder($scanner);
         $asyncApi = new AsyncApi($scanner, $builder);
 
@@ -98,7 +98,7 @@ describe('AsyncApi', function () {
     });
 
     it('exports pretty JSON when requested', function () {
-        $scanner = new AnnotationScanner([__DIR__ . '/../Fixtures']);
+        $scanner = new AnnotationScanner([__DIR__.'/../Fixtures']);
         $builder = new SpecificationBuilder($scanner);
         $asyncApi = new AsyncApi($scanner, $builder);
 
@@ -109,4 +109,3 @@ describe('AsyncApi', function () {
             ->and($json)->toContain('  ');
     });
 });
-

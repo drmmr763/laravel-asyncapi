@@ -37,7 +37,8 @@ class GenerateCommand extends Command
 
             return self::SUCCESS;
         } catch (\Exception $e) {
-            $this->error('Failed to generate AsyncAPI specification: ' . $e->getMessage());
+            $this->error('Failed to generate AsyncAPI specification: '.$e->getMessage());
+
             return self::FAILURE;
         }
     }
@@ -45,20 +46,20 @@ class GenerateCommand extends Command
     protected function displaySummary(array $specification): void
     {
         $this->line('<fg=cyan>Summary:</>');
-        $this->line('  AsyncAPI Version: ' . ($specification['asyncapi'] ?? 'N/A'));
-        $this->line('  Title: ' . ($specification['info']['title'] ?? 'N/A'));
-        $this->line('  Version: ' . ($specification['info']['version'] ?? 'N/A'));
-        
+        $this->line('  AsyncAPI Version: '.($specification['asyncapi'] ?? 'N/A'));
+        $this->line('  Title: '.($specification['info']['title'] ?? 'N/A'));
+        $this->line('  Version: '.($specification['info']['version'] ?? 'N/A'));
+
         if (isset($specification['servers'])) {
-            $this->line('  Servers: ' . count($specification['servers']));
+            $this->line('  Servers: '.count($specification['servers']));
         }
-        
+
         if (isset($specification['channels'])) {
-            $this->line('  Channels: ' . count($specification['channels']));
+            $this->line('  Channels: '.count($specification['channels']));
         }
-        
+
         if (isset($specification['operations'])) {
-            $this->line('  Operations: ' . count($specification['operations']));
+            $this->line('  Operations: '.count($specification['operations']));
         }
 
         $this->newLine();
@@ -67,7 +68,7 @@ class GenerateCommand extends Command
     protected function displaySpecification(array $specification): void
     {
         $format = $this->option('format') ?? config('asyncapi.default_export_format', 'yaml');
-        
+
         $exporter = $this->getExporter($format);
         $output = $exporter->export($specification);
 
@@ -79,12 +80,12 @@ class GenerateCommand extends Command
     protected function exportSpecification(array $specification, string $outputPath): void
     {
         $format = $this->option('format') ?? config('asyncapi.default_export_format', 'yaml');
-        
+
         $exporter = $this->getExporter($format);
-        
+
         // Add extension if not present
-        if (!str_ends_with($outputPath, '.' . $exporter->getExtension())) {
-            $outputPath .= '.' . $exporter->getExtension();
+        if (! str_ends_with($outputPath, '.'.$exporter->getExtension())) {
+            $outputPath .= '.'.$exporter->getExtension();
         }
 
         $exporter->exportToFile($specification, $outputPath);
@@ -106,7 +107,6 @@ class GenerateCommand extends Command
             return new $exporterClass($prettyPrint);
         }
 
-        return new $exporterClass();
+        return new $exporterClass;
     }
 }
-

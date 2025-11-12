@@ -11,7 +11,7 @@ describe('AnnotationScanner', function () {
     });
 
     it('can scan directories for AsyncAPI attributes', function () {
-        $scanner = new AnnotationScanner([__DIR__ . '/../Fixtures']);
+        $scanner = new AnnotationScanner([__DIR__.'/../Fixtures']);
         $annotations = $scanner->scan();
 
         expect($annotations)->toBeArray()
@@ -19,7 +19,7 @@ describe('AnnotationScanner', function () {
     });
 
     it('finds AsyncApi attributes on classes', function () {
-        $scanner = new AnnotationScanner([__DIR__ . '/../Fixtures']);
+        $scanner = new AnnotationScanner([__DIR__.'/../Fixtures']);
         $annotations = $scanner->scan();
 
         expect($annotations)->toHaveKey(TestAsyncApiSpec::class);
@@ -39,7 +39,7 @@ describe('AnnotationScanner', function () {
     });
 
     it('finds Message attributes on classes', function () {
-        $scanner = new AnnotationScanner([__DIR__ . '/../Fixtures']);
+        $scanner = new AnnotationScanner([__DIR__.'/../Fixtures']);
         $annotations = $scanner->scan();
 
         expect($annotations)->toHaveKey(TestBroadcastEvent::class);
@@ -59,7 +59,7 @@ describe('AnnotationScanner', function () {
     });
 
     it('handles empty directories gracefully', function () {
-        $tempDir = sys_get_temp_dir() . '/asyncapi_test_' . uniqid();
+        $tempDir = sys_get_temp_dir().'/asyncapi_test_'.uniqid();
         mkdir($tempDir);
 
         $scanner = new AnnotationScanner([$tempDir]);
@@ -81,7 +81,7 @@ describe('AnnotationScanner', function () {
 
     it('scans multiple directories', function () {
         $scanner = new AnnotationScanner([
-            __DIR__ . '/../Fixtures',
+            __DIR__.'/../Fixtures',
             __DIR__,
         ]);
         $annotations = $scanner->scan();
@@ -91,10 +91,10 @@ describe('AnnotationScanner', function () {
     });
 
     it('only scans PHP files', function () {
-        $tempDir = sys_get_temp_dir() . '/asyncapi_test_' . uniqid();
+        $tempDir = sys_get_temp_dir().'/asyncapi_test_'.uniqid();
         mkdir($tempDir);
-        file_put_contents($tempDir . '/test.txt', 'not a php file');
-        file_put_contents($tempDir . '/test.php', '<?php class Test {}');
+        file_put_contents($tempDir.'/test.txt', 'not a php file');
+        file_put_contents($tempDir.'/test.php', '<?php class Test {}');
 
         $scanner = new AnnotationScanner([$tempDir]);
         $annotations = $scanner->scan();
@@ -102,23 +102,22 @@ describe('AnnotationScanner', function () {
         // Should not throw errors for non-PHP files
         expect($annotations)->toBeArray();
 
-        unlink($tempDir . '/test.txt');
-        unlink($tempDir . '/test.php');
+        unlink($tempDir.'/test.txt');
+        unlink($tempDir.'/test.php');
         rmdir($tempDir);
     });
 
     it('handles classes without attributes', function () {
-        $tempDir = sys_get_temp_dir() . '/asyncapi_test_' . uniqid();
+        $tempDir = sys_get_temp_dir().'/asyncapi_test_'.uniqid();
         mkdir($tempDir);
-        file_put_contents($tempDir . '/NoAttributes.php', '<?php class NoAttributes {}');
+        file_put_contents($tempDir.'/NoAttributes.php', '<?php class NoAttributes {}');
 
         $scanner = new AnnotationScanner([$tempDir]);
         $annotations = $scanner->scan();
 
         expect($annotations)->toBeArray();
 
-        unlink($tempDir . '/NoAttributes.php');
+        unlink($tempDir.'/NoAttributes.php');
         rmdir($tempDir);
     });
 });
-

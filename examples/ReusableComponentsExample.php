@@ -3,21 +3,21 @@
 namespace App\AsyncApi;
 
 use AsyncApi\Attributes\AsyncApi;
-use AsyncApi\Attributes\Info;
 use AsyncApi\Attributes\Channel;
 use AsyncApi\Attributes\Channels;
+use AsyncApi\Attributes\Components;
+use AsyncApi\Attributes\Info;
 use AsyncApi\Attributes\Message;
 use AsyncApi\Attributes\Operation;
 use AsyncApi\Attributes\Operations;
-use AsyncApi\Attributes\Components;
-use AsyncApi\Attributes\Schema;
 use AsyncApi\Attributes\Reference;
+use AsyncApi\Attributes\Schema;
 use AsyncApi\Attributes\Server;
 use AsyncApi\Attributes\Servers;
 
 /**
  * Reusable Schema Components
- * 
+ *
  * Define schemas once and reference them throughout your API specification.
  * This promotes consistency and reduces duplication.
  */
@@ -61,7 +61,7 @@ class CommonSchemas
 
 /**
  * E-commerce AsyncAPI Specification with Reusable Components
- * 
+ *
  * This example demonstrates:
  * 1. Defining reusable schemas in the components section
  * 2. Referencing those schemas from multiple messages
@@ -83,7 +83,7 @@ class CommonSchemas
                 host: 'events.example.com',
                 protocol: 'kafka',
                 description: 'Production event stream'
-            )
+            ),
         ]
     ),
     channels: new Channels(
@@ -112,14 +112,14 @@ class CommonSchemas
                                     type: 'object',
                                     properties: [
                                         'order' => new Reference(ref: CommonSchemas::ORDER),
-                                        'user' => new Reference(ref: CommonSchemas::USER)
+                                        'user' => new Reference(ref: CommonSchemas::USER),
                                     ],
                                     required: ['order', 'user']
-                                )
+                                ),
                             ],
                             required: ['event_id', 'event_type', 'timestamp', 'data']
                         )
-                    )
+                    ),
                 ]
             ),
             'orders/updated' => new Channel(
@@ -152,14 +152,14 @@ class CommonSchemas
                                         'new_status' => new Schema(
                                             type: 'string',
                                             enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled']
-                                        )
+                                        ),
                                     ],
                                     required: ['order', 'previous_status', 'new_status']
-                                )
+                                ),
                             ],
                             required: ['event_id', 'event_type', 'timestamp', 'data']
                         )
-                    )
+                    ),
                 ]
             ),
             'products/inventory' => new Channel(
@@ -184,16 +184,16 @@ class CommonSchemas
                                         'reason' => new Schema(
                                             type: 'string',
                                             enum: ['sale', 'restock', 'adjustment', 'return']
-                                        )
+                                        ),
                                     ],
                                     required: ['product', 'previous_quantity', 'new_quantity', 'reason']
-                                )
+                                ),
                             ],
                             required: ['event_id', 'event_type', 'timestamp', 'data']
                         )
-                    )
+                    ),
                 ]
-            )
+            ),
         ]
     ),
     operations: new Operations(
@@ -221,7 +221,7 @@ class CommonSchemas
                 channel: 'orders/updated',
                 title: 'Subscribe to Order Updated Events',
                 messages: ['orderUpdated']
-            )
+            ),
         ]
     ),
     components: new Components(
@@ -240,10 +240,10 @@ class CommonSchemas
                         properties: [
                             'code' => new Schema(type: 'string', description: 'Error code'),
                             'message' => new Schema(type: 'string', description: 'Error message'),
-                            'details' => new Schema(type: 'object', description: 'Additional error details')
+                            'details' => new Schema(type: 'object', description: 'Additional error details'),
                         ],
                         required: ['code', 'message']
-                    )
+                    ),
                 ],
                 required: ['error']
             ),
@@ -253,7 +253,7 @@ class CommonSchemas
                     'id' => new Schema(type: 'integer', description: 'User ID'),
                     'email' => new Schema(type: 'string', format: 'email', description: 'User email'),
                     'name' => new Schema(type: 'string', description: 'User full name'),
-                    'created_at' => new Reference(ref: CommonSchemas::TIMESTAMP)
+                    'created_at' => new Reference(ref: CommonSchemas::TIMESTAMP),
                 ],
                 required: ['id', 'email', 'name']
             ),
@@ -264,7 +264,7 @@ class CommonSchemas
                     'city' => new Schema(type: 'string'),
                     'state' => new Schema(type: 'string'),
                     'postal_code' => new Schema(type: 'string'),
-                    'country' => new Schema(type: 'string', minLength: 2, maxLength: 2, description: 'ISO 3166-1 alpha-2 country code')
+                    'country' => new Schema(type: 'string', minLength: 2, maxLength: 2, description: 'ISO 3166-1 alpha-2 country code'),
                 ],
                 required: ['street', 'city', 'country']
             ),
@@ -276,7 +276,7 @@ class CommonSchemas
                     'name' => new Schema(type: 'string', description: 'Product name'),
                     'price' => new Schema(type: 'number', format: 'decimal', minimum: 0, description: 'Product price'),
                     'currency' => new Schema(type: 'string', minLength: 3, maxLength: 3, description: 'ISO 4217 currency code'),
-                    'inventory_count' => new Schema(type: 'integer', minimum: 0, description: 'Available inventory')
+                    'inventory_count' => new Schema(type: 'integer', minimum: 0, description: 'Available inventory'),
                 ],
                 required: ['id', 'sku', 'name', 'price', 'currency']
             ),
@@ -297,7 +297,7 @@ class CommonSchemas
                             properties: [
                                 'product' => new Reference(ref: CommonSchemas::PRODUCT),
                                 'quantity' => new Schema(type: 'integer', minimum: 1),
-                                'unit_price' => new Schema(type: 'number', format: 'decimal', minimum: 0)
+                                'unit_price' => new Schema(type: 'number', format: 'decimal', minimum: 0),
                             ],
                             required: ['product', 'quantity', 'unit_price']
                         ),
@@ -308,7 +308,7 @@ class CommonSchemas
                     'total_amount' => new Schema(type: 'number', format: 'decimal', minimum: 0),
                     'currency' => new Schema(type: 'string', minLength: 3, maxLength: 3),
                     'created_at' => new Reference(ref: CommonSchemas::TIMESTAMP),
-                    'updated_at' => new Reference(ref: CommonSchemas::TIMESTAMP)
+                    'updated_at' => new Reference(ref: CommonSchemas::TIMESTAMP),
                 ],
                 required: ['id', 'order_number', 'status', 'items', 'total_amount', 'currency']
             ),
@@ -318,10 +318,10 @@ class CommonSchemas
                     'page' => new Schema(type: 'integer', minimum: 1, description: 'Current page number'),
                     'per_page' => new Schema(type: 'integer', minimum: 1, maximum: 100, description: 'Items per page'),
                     'total' => new Schema(type: 'integer', minimum: 0, description: 'Total number of items'),
-                    'total_pages' => new Schema(type: 'integer', minimum: 0, description: 'Total number of pages')
+                    'total_pages' => new Schema(type: 'integer', minimum: 0, description: 'Total number of pages'),
                 ],
                 required: ['page', 'per_page', 'total', 'total_pages']
-            )
+            ),
         ]
     )
 )]
@@ -329,7 +329,7 @@ class ECommerceAsyncApiSpec
 {
     /**
      * This specification demonstrates best practices for using reusable components:
-     * 
+     *
      * 1. Define common schemas once in the components section
      * 2. Reference them using the Reference class with the schema path
      * 3. Use constants in a separate class for easy reference management
@@ -337,4 +337,3 @@ class ECommerceAsyncApiSpec
      * 5. Maintain consistency across all messages by reusing the same schemas
      */
 }
-

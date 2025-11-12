@@ -8,6 +8,7 @@ use Drmmr763\AsyncApi\Exporters\YamlExporter;
 class AsyncApi
 {
     protected AnnotationScanner $scanner;
+
     protected SpecificationBuilder $builder;
 
     public function __construct(AnnotationScanner $scanner, SpecificationBuilder $builder)
@@ -39,6 +40,7 @@ class AsyncApi
     {
         $specification = $this->build();
         $exporter = new JsonExporter($prettyPrint);
+
         return $exporter->export($specification);
     }
 
@@ -49,6 +51,7 @@ class AsyncApi
     {
         $specification = $this->build();
         $exporter = new YamlExporter($inline, $indent);
+
         return $exporter->export($specification);
     }
 
@@ -61,7 +64,7 @@ class AsyncApi
 
         $exporter = match ($format) {
             'json' => new JsonExporter(config('asyncapi.pretty_print', true)),
-            'yaml', 'yml' => new YamlExporter(),
+            'yaml', 'yml' => new YamlExporter,
             default => throw new \InvalidArgumentException("Unsupported format: {$format}"),
         };
 

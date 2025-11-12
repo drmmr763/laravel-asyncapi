@@ -87,4 +87,3 @@ describe('ServiceProvider', function () {
         expect($scanner)->toBeInstanceOf(AnnotationScanner::class);
     });
 });
-

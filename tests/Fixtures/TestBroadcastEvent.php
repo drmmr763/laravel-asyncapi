@@ -25,9 +25,9 @@ use Illuminate\Queue\SerializesModels;
                 type: 'object',
                 properties: [
                     'user_id' => new Schema(type: 'integer'),
-                    'message' => new Schema(type: 'string')
+                    'message' => new Schema(type: 'string'),
                 ]
-            )
+            ),
         ]
     )
 )]
@@ -38,8 +38,7 @@ class TestBroadcastEvent implements ShouldBroadcast
     public function __construct(
         public int $userId,
         public string $message
-    ) {
-    }
+    ) {}
 
     public function broadcastOn(): array
     {
@@ -61,4 +60,3 @@ class TestBroadcastEvent implements ShouldBroadcast
         ];
     }
 }
-
