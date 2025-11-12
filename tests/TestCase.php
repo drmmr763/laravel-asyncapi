@@ -1,37 +1,64 @@
 <?php
 
-namespace VendorName\Skeleton\Tests;
+namespace Drmmr763\AsyncApi\Tests;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Drmmr763\AsyncApi\AsyncApiServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
-use VendorName\Skeleton\SkeletonServiceProvider;
 
 class TestCase extends Orchestra
 {
     protected function setUp(): void
     {
         parent::setUp();
-
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'VendorName\\Skeleton\\Database\\Factories\\'.class_basename($modelName).'Factory'
-        );
     }
 
-    protected function getPackageProviders($app)
+    /**
+     * Get package providers.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return array<int, class-string>
+     */
+    protected function getPackageProviders($app): array
     {
         return [
-            SkeletonServiceProvider::class,
+            AsyncApiServiceProvider::class,
         ];
     }
 
-    public function getEnvironmentSetUp($app)
+    /**
+     * Define environment setup.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function getEnvironmentSetUp($app): void
     {
+        // Setup default database to use sqlite :memory:
         config()->set('database.default', 'testing');
+        config()->set('database.connections.testing', [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => '',
+        ]);
 
-        /*
-         foreach (\Illuminate\Support\Facades\File::allFiles(__DIR__ . '/../database/migrations') as $migration) {
-            (include $migration->getRealPath())->up();
-         }
-         */
+        // Configure AsyncAPI package for testing
+        config()->set('asyncapi.scan_paths', [
+            __DIR__ . '/Fixtures',
+        ]);
+
+        config()->set('asyncapi.cache.enabled', false);
+    }
+
+    /**
+     * Define package aliases.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return array<string, class-string>
+     */
+    protected function getPackageAliases($app): array
+    {
+        return [
+            'AsyncApi' => \Drmmr763\AsyncApi\Facades\AsyncApi::class,
+        ];
     }
 }
