@@ -25,7 +25,7 @@ describe('ExportCommand', function () {
         $tempFile = sys_get_temp_dir().DIRECTORY_SEPARATOR.'asyncapi_test_'.uniqid().'.yaml';
         $this->tempFiles[] = $tempFile;
 
-        $this->artisan('asyncapi:export '.$tempFile)
+        $this->artisan('asyncapi:export', ['path' => $tempFile])
             ->assertSuccessful();
 
         expect(file_exists($tempFile))->toBeTrue();
@@ -35,7 +35,7 @@ describe('ExportCommand', function () {
         $tempFile = sys_get_temp_dir().DIRECTORY_SEPARATOR.'asyncapi_test_'.uniqid().'.yaml';
         $this->tempFiles[] = $tempFile;
 
-        $this->artisan('asyncapi:export '.$tempFile)
+        $this->artisan('asyncapi:export', ['path' => $tempFile])
             ->assertSuccessful();
 
         $content = file_get_contents($tempFile);
@@ -46,7 +46,7 @@ describe('ExportCommand', function () {
         $tempFile = sys_get_temp_dir().DIRECTORY_SEPARATOR.'asyncapi_test_'.uniqid().'.json';
         $this->tempFiles[] = $tempFile;
 
-        $this->artisan('asyncapi:export '.$tempFile.' --format=json')
+        $this->artisan('asyncapi:export', ['path' => $tempFile, '--format' => 'json'])
             ->assertSuccessful();
 
         $content = file_get_contents($tempFile);
@@ -57,7 +57,7 @@ describe('ExportCommand', function () {
         $jsonFile = sys_get_temp_dir().DIRECTORY_SEPARATOR.'asyncapi_test_'.uniqid().'.json';
         $this->tempFiles[] = $jsonFile;
 
-        $this->artisan('asyncapi:export '.$jsonFile)
+        $this->artisan('asyncapi:export', ['path' => $jsonFile])
             ->assertSuccessful();
 
         $content = file_get_contents($jsonFile);
@@ -68,7 +68,7 @@ describe('ExportCommand', function () {
         $tempFile = sys_get_temp_dir().DIRECTORY_SEPARATOR.'asyncapi_test_'.uniqid().'.json';
         $this->tempFiles[] = $tempFile;
 
-        $this->artisan('asyncapi:export '.$tempFile.' --format=json --pretty')
+        $this->artisan('asyncapi:export', ['path' => $tempFile, '--format' => 'json', '--pretty' => true])
             ->assertSuccessful();
 
         $content = file_get_contents($tempFile);
@@ -82,7 +82,7 @@ describe('ExportCommand', function () {
         $this->tempFiles[] = $tempFile;
         $this->tempDirs[] = $tempDir;
 
-        $this->artisan('asyncapi:export '.$tempFile)
+        $this->artisan('asyncapi:export', ['path' => $tempFile])
             ->assertSuccessful();
 
         expect(file_exists($tempFile))->toBeTrue();
@@ -92,7 +92,7 @@ describe('ExportCommand', function () {
         $tempFile = sys_get_temp_dir().DIRECTORY_SEPARATOR.'asyncapi_test_'.uniqid().'.yaml';
         $this->tempFiles[] = $tempFile;
 
-        $this->artisan('asyncapi:export '.$tempFile)
+        $this->artisan('asyncapi:export', ['path' => $tempFile])
             ->expectsOutputToContain('exported successfully')
             ->assertSuccessful();
     });

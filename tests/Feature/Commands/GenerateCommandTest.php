@@ -25,7 +25,7 @@ describe('GenerateCommand', function () {
     it('accepts output option', function () {
         $tempFile = sys_get_temp_dir().DIRECTORY_SEPARATOR.'asyncapi_test_'.uniqid().'.yaml';
 
-        $this->artisan('asyncapi:generate --output='.$tempFile)
+        $this->artisan('asyncapi:generate', ['--output' => $tempFile])
             ->assertSuccessful();
 
         expect(file_exists($tempFile))->toBeTrue();
@@ -34,14 +34,18 @@ describe('GenerateCommand', function () {
     });
 
     it('accepts pretty option', function () {
-        $this->artisan('asyncapi:generate --pretty')
+        $this->artisan('asyncapi:generate', ['--pretty' => true])
             ->assertSuccessful();
     });
 
     it('can combine options', function () {
         $tempFile = sys_get_temp_dir().DIRECTORY_SEPARATOR.'asyncapi_test_'.uniqid().'.json';
 
-        $this->artisan('asyncapi:generate --format=json --output='.$tempFile.' --pretty')
+        $this->artisan('asyncapi:generate', [
+            '--format' => 'json',
+            '--output' => $tempFile,
+            '--pretty' => true,
+        ])
             ->assertSuccessful();
 
         expect(file_exists($tempFile))->toBeTrue();
