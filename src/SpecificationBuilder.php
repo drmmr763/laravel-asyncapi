@@ -8,6 +8,7 @@ use AsyncApi\Attributes\Components;
 use AsyncApi\Attributes\Info;
 use AsyncApi\Attributes\Messages;
 use AsyncApi\Attributes\Operations;
+use AsyncApi\Attributes\Parameters;
 use AsyncApi\Attributes\Reference;
 use AsyncApi\Attributes\Servers;
 
@@ -278,6 +279,11 @@ class SpecificationBuilder
             return $this->arrayToSpec($attribute->messages);
         }
 
+        // Handle Parameters objects specially - unwrap the parameters property
+        if ($attribute instanceof Parameters) {
+            return $this->arrayToSpec($attribute->parameters);
+        }
+
         $result = [];
         $reflection = new \ReflectionObject($attribute);
 
@@ -291,9 +297,11 @@ class SpecificationBuilder
 
             $name = $property->getName();
 
-            // Skip the 'x' property as it's not part of the AsyncAPI spec
-            // Extension properties should be added individually with x- prefix
-            if ($name === 'x') {
+            // Handle extension properties - add them with x- prefix
+            if ($name === 'x' && is_array($value)) {
+                foreach ($value as $key => $extensionValue) {
+                    $result['x-' . $key] = $extensionValue;
+                }
                 continue;
             }
 
