@@ -300,8 +300,9 @@ class SpecificationBuilder
             // Handle extension properties - add them with x- prefix
             if ($name === 'x' && is_array($value)) {
                 foreach ($value as $key => $extensionValue) {
-                    $result['x-' . $key] = $extensionValue;
+                    $result['x-'.$key] = $extensionValue;
                 }
+
                 continue;
             }
 
