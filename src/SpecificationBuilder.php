@@ -6,7 +6,9 @@ use AsyncApi\Attributes\AsyncApi as AsyncApiAttribute;
 use AsyncApi\Attributes\Channels;
 use AsyncApi\Attributes\Components;
 use AsyncApi\Attributes\Info;
+use AsyncApi\Attributes\Messages;
 use AsyncApi\Attributes\Operations;
+use AsyncApi\Attributes\Reference;
 use AsyncApi\Attributes\Servers;
 
 class SpecificationBuilder
@@ -266,6 +268,16 @@ class SpecificationBuilder
      */
     protected function attributeToArray(object $attribute): array
     {
+        // Handle Reference objects specially - use $ref instead of ref
+        if ($attribute instanceof Reference) {
+            return ['$ref' => $attribute->ref];
+        }
+
+        // Handle Messages objects specially - unwrap the messages property
+        if ($attribute instanceof Messages) {
+            return $this->arrayToSpec($attribute->messages);
+        }
+
         $result = [];
         $reflection = new \ReflectionObject($attribute);
 
@@ -278,6 +290,12 @@ class SpecificationBuilder
             }
 
             $name = $property->getName();
+
+            // Skip the 'x' property as it's not part of the AsyncAPI spec
+            // Extension properties should be added individually with x- prefix
+            if ($name === 'x') {
+                continue;
+            }
 
             if (is_object($value)) {
                 $result[$name] = $this->attributeToArray($value);
